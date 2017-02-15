@@ -12,19 +12,19 @@ def time_fn(fn, *args, **kwargs):
     return (end_time - start_time, result)
 
 # Test de produit scalaire
-n = 100000000
+n = 1000000
 print('==== Dot product of {}-vectors ===='.format(n))
 
 af.set_backend('cpu')
-v1 = af.random.randu(1, n)
-v2 = af.random.randu(n, 1)
-time_dot_product_host = af.timer.timeit(af.blas.matmul, v1, v2)
+v1 = af.random.randu(n)
+v2 = af.random.randu(n)
+time_dot_product_host = af.timer.timeit(af.blas.dot, v1, v2)
 print('Host time: {}'.format(time_dot_product_host))
 
 af.set_backend('cuda')
-v1 = af.random.randu(1, n)
-v2 = af.random.randu(n, 1)
-time_dot_product_device = af.timer.timeit(af.blas.matmul, v1, v2)
+v1 = af.random.randu(n)
+v2 = af.random.randu(n)
+time_dot_product_device = af.timer.timeit(af.blas.dot, v1, v2)
 print('Device time: {}'.format(time_dot_product_device))
 print('Speedup: {0:.2f}x'.format(time_dot_product_host / time_dot_product_device))
 
