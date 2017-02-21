@@ -11,8 +11,17 @@ def time_fn(fn, *args, **kwargs):
 
     return (end_time - start_time, result)
 
+
+
+
+
+
+
+
+
 # Test de produit scalaire
 n = 1000000
+print('')
 print('==== Dot product of {}-vectors ===='.format(n))
 
 af.set_backend('cpu')
@@ -27,6 +36,20 @@ v2 = af.random.randu(n)
 time_dot_product_device = af.timer.timeit(af.blas.dot, v1, v2)
 print('Device time: {}'.format(time_dot_product_device))
 print('Speedup: {0:.2f}x'.format(time_dot_product_host / time_dot_product_device))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Matrice-Vecteur
 n = 10000
@@ -48,6 +71,17 @@ print('Device time: {}'.format(time_matmul_device))
 print('Speedup: {0:.2f}x'.format(time_matmul_host / time_matmul_device))
 
 
+
+
+
+
+
+
+
+
+
+
+
 # Matrice-Matrice
 n = 1000
 
@@ -66,6 +100,15 @@ a = af.random.randu(n, 1)
 time_matmul2_device = af.timer.timeit(af.blas.matmul, m, a)
 print('Device time: {}'.format(time_matmul_device))
 print('Speedup: {0:.2f}x'.format(time_matmul2_host / time_matmul2_device))
+
+
+
+
+
+
+
+
+
 
 
 # Solve linear equation
@@ -90,8 +133,19 @@ b = af.blas.matmul(m, a)
 time_les_device = af.timer.timeit(af.solve, m, b)
 print('Device time: {}'.format(time_les_device))
 print('Speedup: {0:.2f}x'.format(time_les_host / time_les_device))
+
+
+
+
+
+
+
+
+
+
 # Test de sort
 size_of_vector = 1000000
+print('')
 print('==== Sort an array of {} floats ===='.format(size_of_vector))
 
 af.set_backend('cpu')
@@ -105,6 +159,14 @@ time_sort_device = af.timer.timeit(af.algorithm.sort, v)
 print('Device time: {}'.format(time_sort_device))
 print('Speedup: {0:.2f}x'.format(time_sort_host / time_sort_device))
 
+
+
+
+
+
+
+
+# Test de convolution
 n = 1000
 print('')
 print('=== 2d convolution on a {}x{} matrix ==='.format(n, n))
@@ -129,3 +191,21 @@ m = af.random.randu(n, n)
 time_convolve_device = af.timer.timeit(af.convolve, m, af_kernel)
 print('Device time: {}'.format(time_convolve_device))
 print('Speedup: {0:.2f}x'.format(time_convolve_host / time_convolve_device))
+
+
+
+
+
+
+
+
+
+# Interop numpy
+print('')
+print('Numpy interop...')
+af.set_backend('cuda')
+m = np.random.rand(1000, 1000)
+
+arrayfire_m = af.np_to_af_array(m)
+(maxs, idxs) = af.algorithm.imax(arrayfire_m, 1)
+print('Done')
